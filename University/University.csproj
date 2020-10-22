@@ -5,10 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\ViewModels\" />
+    <Compile Remove="Migrations\20201022121809_Students.cs" />
+    <Compile Remove="Migrations\20201022121809_Students.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Bogus" Version="31.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.9">
