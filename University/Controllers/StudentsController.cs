@@ -7,22 +7,34 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using University.Data;
 using University.Models.Entities;
+using University.Models.ViewModels;
 
 namespace University.Controllers
 {
     public class StudentsController : Controller
     {
-        private readonly UniversityContext _context;
+        private readonly UniversityContext db;
 
-        public StudentsController(UniversityContext context)
+        public StudentsController(UniversityContext db)
         {
-            _context = context;
+            this.db = db;
         }
 
         // GET: Students
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Student.ToListAsync());
+            var model = db.Students
+                            .Include(s => s.Adress)
+                            .Select(s => new StudentListViewModel
+                            {
+                                Id = s.Id,
+                                Avatar = s.Avatar,
+                                FullName = s.FullName,
+                                Street = s.Adress.Street
+                            })
+                            .Take(10);
+
+            return View(await model.ToListAsync());
         }
 
         // GET: Students/Details/5
@@ -33,7 +45,7 @@ namespace University.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Student
+            var student = await db.Students
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (student == null)
             {
@@ -58,8 +70,8 @@ namespace University.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(student);
-                await _context.SaveChangesAsync();
+                db.Add(student);
+                await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(student);
@@ -73,7 +85,7 @@ namespace University.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Student.FindAsync(id);
+            var student = await db.Students.FindAsync(id);
             if (student == null)
             {
                 return NotFound();
@@ -97,8 +109,8 @@ namespace University.Controllers
             {
                 try
                 {
-                    _context.Update(student);
-                    await _context.SaveChangesAsync();
+                    db.Update(student);
+                    await db.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -124,7 +136,7 @@ namespace University.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Student
+            var student = await db.Students
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (student == null)
             {
@@ -139,15 +151,15 @@ namespace University.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var student = await _context.Student.FindAsync(id);
-            _context.Student.Remove(student);
-            await _context.SaveChangesAsync();
+            var student = await db.Students.FindAsync(id);
+            db.Students.Remove(student);
+            await db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool StudentExists(int id)
         {
-            return _context.Student.Any(e => e.Id == id);
+            return db.Students.Any(e => e.Id == id);
         }
     }
 }
