@@ -62,8 +62,10 @@ namespace University.Controllers
                 return NotFound();
             }
 
-            var student = await db.Students
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var student = await mapper
+                .ProjectTo<StudentDetailsViewModel>(db.Students)
+                .FirstOrDefaultAsync(s => s.Id == id);
+
             if (student == null)
             {
                 return NotFound();
@@ -87,19 +89,22 @@ namespace University.Controllers
         {
             if (ModelState.IsValid)
             {
-                var student = new Student
-                {
-                    Avatar = faker.Internet.Avatar(),
-                    FirstName = viewmodel.FirstName,
-                    LastName = viewmodel.LastName,
-                    Email = viewmodel.Email,
-                    Adress = new Adress
-                    {
-                        Street = viewmodel.AdressStreet,
-                        City = viewmodel.AdressCity,
-                        ZipCode = viewmodel.AdressZipCode
-                    }
-                };
+                //var student = new Student
+                //{
+                //    Avatar = faker.Internet.Avatar(),
+                //    FirstName = viewmodel.FirstName,
+                //    LastName = viewmodel.LastName,
+                //    Email = viewmodel.Email,
+                //    Adress = new Adress
+                //    {
+                //        Street = viewmodel.AdressStreet,
+                //        City = viewmodel.AdressCity,
+                //        ZipCode = viewmodel.AdressZipCode
+                //    }
+                //};
+
+                var student = mapper.Map<Student>(viewmodel);
+                student.Avatar = faker.Internet.Avatar();
 
                 db.Add(student);
                 await db.SaveChangesAsync();
