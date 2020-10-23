@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using University.Validations;
 
 namespace University.Models.ViewModels
 {
@@ -15,6 +16,8 @@ namespace University.Models.ViewModels
         [Remote(action:"CheckEmail", controller:"Students")]
         [EmailAddress]
         public string Email { get; set; }
+
+        [CheckStreetNr]
         public string AdressStreet { get; set; }
         public string AdressCity { get; set; }
         public string AdressZipCode { get; set; }
