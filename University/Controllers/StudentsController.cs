@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bogus;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +15,12 @@ namespace University.Controllers
     public class StudentsController : Controller
     {
         private readonly UniversityContext db;
+        private Faker faker;
 
         public StudentsController(UniversityContext db)
         {
             this.db = db;
+            faker = new Faker("sv");
         }
 
         // GET: Students
@@ -66,15 +69,29 @@ namespace University.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Avatar,FirstName,LastName,Email")] Student student)
+        public async Task<IActionResult> Create(StudentAddViewModel viewmodel)
         {
             if (ModelState.IsValid)
             {
+                var student = new Student
+                {
+                    Avatar = faker.Internet.Avatar(),
+                    FirstName = viewmodel.FirstName,
+                    LastName = viewmodel.LastName,
+                    Email = viewmodel.Email,
+                    Adress = new Adress
+                    {
+                        Street = viewmodel.AdressStreet,
+                        City = viewmodel.AdressCity,
+                        ZipCode = viewmodel.AdressZipCode
+                    }
+                };
+
                 db.Add(student);
                 await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(student);
+            return View(viewmodel);
         }
 
         // GET: Students/Edit/5

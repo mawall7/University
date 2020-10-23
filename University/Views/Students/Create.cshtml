@@ -1,4 +1,4 @@
-﻿@model University.Models.Entities.Student
+﻿@model University.Models.ViewModels.StudentAddViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -6,17 +6,12 @@
 
 <h1>Create</h1>
 
-<h4>Student</h4>
+<h4>StudentAddViewModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Avatar" class="control-label"></label>
-                <input asp-for="Avatar" class="form-control" />
-                <span asp-validation-for="Avatar" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
@@ -31,6 +26,21 @@
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdressStreet" class="control-label"></label>
+                <input asp-for="AdressStreet" class="form-control" />
+                <span asp-validation-for="AdressStreet" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdressCity" class="control-label"></label>
+                <input asp-for="AdressCity" class="form-control" />
+                <span asp-validation-for="AdressCity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdressZipCode" class="control-label"></label>
+                <input asp-for="AdressZipCode" class="form-control" />
+                <span asp-validation-for="AdressZipCode" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

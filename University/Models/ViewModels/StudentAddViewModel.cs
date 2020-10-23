@@ -7,7 +7,11 @@ namespace University.Models.ViewModels
 {
     public class StudentAddViewModel
     {
-        //public string FirstName { get; set; }
-        //public int MyProperty { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string AdressStreet { get; set; }
+        public string AdressCity { get; set; }
+        public string AdressZipCode { get; set; }
     }
 }
