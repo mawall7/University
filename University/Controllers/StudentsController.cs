@@ -40,6 +40,15 @@ namespace University.Controllers
             return View(await model.ToListAsync());
         }
 
+        public IActionResult CheckEmail(string email)
+        {
+            if(db.Students.Any(s => s.Email == email))
+            {
+                return Json($"{email} is in use");
+            }
+            return Json(true);
+        }
+
         // GET: Students/Details/5
         public async Task<IActionResult> Details(int? id)
         {
