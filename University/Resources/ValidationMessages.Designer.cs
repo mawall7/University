@@ -59,5 +59,14 @@ namespace University.Resources {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Must contain a street nr under {0}.
+        /// </summary>
+        internal static string StreetNr {
+            get {
+                return ResourceManager.GetString("StreetNr", resourceCulture);
+            }
+        }
     }
 }

@@ -1,7 +1,9 @@
 ﻿$.validator.addMethod('streetnr', function (value, element, params) {
-    let last = value.split('').pop();
+    let last = value.split(' ').pop();
     let res = parseInt(last);
-    return isNaN(res) ? false : true;
+    if (isNaN(res)) return false;
+    let max = parseInt(params);
+    return res <= max ? true : false;
 });
 
-$.validator.unobtrusive.adapters.addBool('streetnr');
+$.validator.unobtrusive.adapters.addSingleVal('streetnr', 'max');

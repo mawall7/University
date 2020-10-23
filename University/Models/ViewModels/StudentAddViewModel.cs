@@ -17,7 +17,7 @@ namespace University.Models.ViewModels
         [EmailAddress]
         public string Email { get; set; }
 
-        [CheckStreetNr]
+        [CheckStreetNr(max: 10)]
         public string AdressStreet { get; set; }
         public string AdressCity { get; set; }
         public string AdressZipCode { get; set; }
