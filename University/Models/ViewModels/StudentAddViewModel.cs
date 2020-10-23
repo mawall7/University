@@ -11,6 +11,8 @@ namespace University.Models.ViewModels
     public class StudentAddViewModel
     {
         public string FirstName { get; set; }
+
+        [Anka]
         public string LastName { get; set; }
 
         [Remote(action:"CheckEmail", controller:"Students")]
