@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Bogus;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -15,27 +16,31 @@ namespace University.Controllers
     public class StudentsController : Controller
     {
         private readonly UniversityContext db;
+        private readonly IMapper mapper;
         private Faker faker;
 
-        public StudentsController(UniversityContext db)
+        public StudentsController(UniversityContext db, IMapper mapper)
         {
             this.db = db;
+            this.mapper = mapper;
             faker = new Faker("sv");
         }
 
         // GET: Students
         public async Task<IActionResult> Index()
         {
-            var model = db.Students
-                            .Include(s => s.Adress)
-                            .Select(s => new StudentListViewModel
-                            {
-                                Id = s.Id,
-                                Avatar = s.Avatar,
-                                FullName = s.FullName,
-                                Street = s.Adress.Street
-                            })
-                            .Take(10);
+            //var model = db.Students
+            //                .Include(s => s.Adress)
+            //                .Select(s => new StudentListViewModel
+            //                {
+            //                    Id = s.Id,
+            //                    Avatar = s.Avatar,
+            //                    FullName = s.FullName,
+            //                    AdressStreet = s.Adress.Street
+            //                })
+            //                .Take(10);
+
+            var model = mapper.ProjectTo<StudentListViewModel>(db.Students).Take(10);
 
             return View(await model.ToListAsync());
         }

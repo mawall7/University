@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using University.Data;
+using AutoMapper;
 
 namespace University
 {
@@ -28,7 +29,9 @@ namespace University
             services.AddControllersWithViews();
 
             services.AddDbContext<UniversityContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("UniversityContext")));
+                    options.UseSqlServer(Configuration.GetConnectionString("UniversityContext")).EnableSensitiveDataLogging());
+
+            services.AddAutoMapper(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -10,6 +10,6 @@ namespace University.Models.ViewModels
         public int Id { get; set; }
         public string  Avatar { get; set; }
         public string FullName { get; set; }
-        public string Street { get; set; }
+        public string AdressStreet { get; set; }
     }
 }
