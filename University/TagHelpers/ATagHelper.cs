@@ -29,7 +29,7 @@ namespace University.TagHelpers
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             var urlHelper = urlHelperFactory.GetUrlHelper(ViewContext);
-            output.Attributes.Add("href", $"../Students/{Action}");
+            output.Attributes.Add("href", $"{urlHelper.Action(Action)}");
         }
 
     }
