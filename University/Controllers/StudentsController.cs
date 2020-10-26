@@ -8,11 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using University.Data;
+using University.Filters;
 using University.Models.Entities;
 using University.Models.ViewModels;
 
 namespace University.Controllers
 {
+    //[ModelIsValidFilter]
     public class StudentsController : Controller
     {
         private readonly UniversityContext db;
@@ -55,21 +57,13 @@ namespace University.Controllers
         }
 
         // GET: Students/Details/5
+        [RequiredParamFilter("id")]
+        [ModelNotNullFilter]
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var student = await mapper
                 .ProjectTo<StudentDetailsViewModel>(db.Students)
                 .FirstOrDefaultAsync(s => s.Id == id);
-
-            if (student == null)
-            {
-                return NotFound();
-            }
 
             return View(student);
         }
@@ -85,6 +79,7 @@ namespace University.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+       // [ModelIsValidFilter]
         public async Task<IActionResult> Create(StudentAddViewModel viewmodel)
         {
             if (ModelState.IsValid)
@@ -114,18 +109,12 @@ namespace University.Controllers
         }
 
         // GET: Students/Edit/5
+        [RequiredParamFilter("id")]
+        [ModelNotNullFilter]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var student = await db.Students.FindAsync(id);
-            if (student == null)
-            {
-                return NotFound();
-            }
+          
             return View(student);
         }
 
