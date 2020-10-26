@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using University.Data;
 using AutoMapper;
+using University.Middleware;
 
 namespace University
 {
@@ -47,6 +48,9 @@ namespace University
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseExceptionsMiddleware();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
