@@ -2,7 +2,7 @@
 
 namespace University.Migrations
 {
-    public partial class Init : Migration
+    public partial class initialize : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,7 +20,7 @@ namespace University.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Student",
+                name: "Students",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -32,7 +32,7 @@ namespace University.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Student", x => x.Id);
+                    table.PrimaryKey("PK_Students", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -50,9 +50,9 @@ namespace University.Migrations
                 {
                     table.PrimaryKey("PK_Adress", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Adress_Student_StudentId",
+                        name: "FK_Adress_Students_StudentId",
                         column: x => x.StudentId,
-                        principalTable: "Student",
+                        principalTable: "Students",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -77,9 +77,9 @@ namespace University.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Enrollment_Student_StudentId",
+                        name: "FK_Enrollment_Students_StudentId",
                         column: x => x.StudentId,
-                        principalTable: "Student",
+                        principalTable: "Students",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -113,7 +113,7 @@ namespace University.Migrations
                 name: "Course");
 
             migrationBuilder.DropTable(
-                name: "Student");
+                name: "Students");
         }
     }
 }

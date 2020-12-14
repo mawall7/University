@@ -28,8 +28,11 @@ namespace University
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           // services.AddControllersWithViews(options => options.Filters.Add(typeof(ModelIsValidFilter)));
-            services.AddControllersWithViews();
+            // services.AddControllersWithViews(options => options.Filters.Add(typeof(ModelIsValidFilter)));
+
+            //services.AddControllersWithViews();
+
+            services.AddControllers(opt => opt.ReturnHttpNotAcceptable = true).AddXmlDataContractSerializerFormatters();
 
             services.AddDbContext<UniversityContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("UniversityContext")).EnableSensitiveDataLogging());
@@ -44,17 +47,12 @@ namespace University
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+           
 
-            app.UseExceptionsMiddleware();
+            //app.UseExceptionsMiddleware();
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+           // app.UseStaticFiles();
 
             app.UseRouting();
 
@@ -62,9 +60,7 @@ namespace University
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=students}/{action=Index}/{id?}");
+                endpoints.MapControllers();
             });
         }
     }

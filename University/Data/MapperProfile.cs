@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using University.Models.DTO;
 using University.Models.Entities;
 using University.Models.ViewModels;
 
@@ -22,6 +23,9 @@ namespace University.Data
                 .ForMember(
                         dest => dest.Courses,
                         from => from.MapFrom(s => s.Enrollments.Select(e => e.Course).ToList()));
+            CreateMap<Student, StudentDto>().ReverseMap();
+            CreateMap<Enrollment, EnrollementDto>().ReverseMap();
+            CreateMap<Course, CourseDto>().ReverseMap();
 
         }
     }
